@@ -1,17 +1,16 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <Transfer/>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Transfer from './components/Transfer.vue'
 
 export default {
   name: 'app',
   components: {
-    HelloWorld
+      Transfer
   }
 }
 </script>
