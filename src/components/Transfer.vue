@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-row :gutter="20">
+        <el-row :gutter="20" style="margin-left: 0;margin-right: 0">
             <el-col :span="12" :offset="6" v-loading="loading"
                     :element-loading-text="finishedNumber + '/' + total"
                     element-loading-spinner="el-icon-loading">
@@ -12,7 +12,7 @@
                     <p>3. 需要临时将 <span style="font-weight: bold;color: #e11212cc;">https://valine.mou.science</span> 添加到<span>LeanCloud安全域名</span>。</p>
                     <p>4. 数据会多出一个DisqusToValineTest，是检查ID和KEY用的，可以删除。</p>
                     <p>5. 纯前端操作，无风险，项目代码：https://github.com/taosky/disqus-to-valine</p>
-
+                    <p>6. 如有问题请在页面下方评论区反馈。</p>
                 </div>
                 <div style="margin-bottom: 20px;">
                     <el-input v-model="leanId" placeholder="LeanCloud APP ID"></el-input>
@@ -27,17 +27,16 @@
                 <div>
                     <el-button type="warning" @click="startTrans">开始转换</el-button>
                 </div>
+                <div style="margin-top:20px;background: white;text-align: left;" id="vcomments"></div>
+
             </el-col>
         </el-row>
-
-
     </div>
 </template>
 
 <script>
     window.convert = require('xml-js');
     import axios from 'axios';
-
     export default {
         name: "transfer",
         data: function () {
@@ -186,9 +185,37 @@
                 });
 
             }
+        },
+        mounted: function(){
+            const Valine = require('valine');
+            if (typeof window !== 'undefined') {
+                this.window = window
+                window.AV = require('leancloud-storage')
+
+            }
+            new Valine({
+                el: '#vcomments',
+                appId: 'iM6NcXUBMLloUfWfE0DEHaNG-gzGzoHsz',
+                appKey: '3O2I3gY0dp5Gmv52jRsqTcu3',
+                notify:true,
+                verify:false,
+                avatar:'mm',
+            });
         }
     }
-</script>
-<style scoped>
 
+</script>
+<style>
+    .info {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+    .vinfo{
+        padding-left: 20px!important;
+
+    }
+    .vlist {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
 </style>
