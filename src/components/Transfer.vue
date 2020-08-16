@@ -9,14 +9,14 @@
                     <p>
                     <p>1. 用于现有Disqus评论转移至Valine(LeanCloud)。</p>
                     <p>2. 回复楼层、时间显示正常；由于Disqus导出内容限制，邮箱、头像、网站链接丢失。</p>
-                    <p>3. 需要临时将 <span style="font-weight: bold;color: #e11212cc;">https://valine.mou.science</span> 添加到<span>LeanCloud安全域名</span>。</p>
+                    <p>3. 需要临时将 <span style="font-weight: bold;color: #e11212cc;">https://taosky.github.io</span> 添加到<span>LeanCloud安全域名</span>。</p>
                     <p>4. 数据会多出一个DisqusToValineTest，是检查ID和KEY用的，可以删除。</p>
-                    <p>5. 纯前端操作，无风险，项目代码：https://github.com/taosky/disqus-to-valine</p>
-                    <p>6. 如有问题请在页面下方评论区反馈。</p>
+                    <p>5. 纯前端操作，项目代码：https://github.com/taosky/disqus-to-valine</p>
                 </div>
                 <div style="margin-bottom: 20px;">
                     <el-input v-model="leanId" placeholder="LeanCloud APP ID"></el-input>
                     <el-input v-model="leanKey" placeholder="LeanCloud APP KEY"></el-input>
+                    <el-input v-model="leanApi" placeholder="LeanCloud REST API 服务器地址"></el-input>
                     <el-input
                             type="textarea"
                             :rows="20"
@@ -27,8 +27,6 @@
                 <div>
                     <el-button type="warning" @click="startTrans">开始转换</el-button>
                 </div>
-                <div style="margin-top:20px;background: white;text-align: left;" id="vcomments"></div>
-
             </el-col>
         </el-row>
     </div>
@@ -43,6 +41,7 @@
             return {
                 leanId: '',
                 leanKey: '',
+                leanApi: '',
                 disqusXml: '',
                 threads: {},
                 comments: {},
@@ -102,7 +101,7 @@
                 return format_url;
             },
             sendLean: function (post, comment, that) {
-                let api = `https://${that.leanId.slice(0, 8)}.api.lncld.net/1.1/classes/Comment`;
+                let api = `${this.leanApi}/1.1/classes/Comment`;
                 let headers = {
                     'X-LC-Id': that.leanId, 'X-LC-Key': that.leanKey,
                     'Content-Type': 'application/json'
@@ -162,7 +161,7 @@
                     requestList.push({'post': post, 'comment': comment});
 
                 });
-                let api = `https://${that.leanId.slice(0, 8)}.api.lncld.net/1.1/classes/DisqusToValineTest`;
+                let api = `${this.leanApi}/1.1/classes/DisqusToValineTest`;
                 let headers = {
                     'X-LC-Id': that.leanId, 'X-LC-Key': that.leanKey,
                     'Content-Type': 'application/json'
@@ -193,14 +192,6 @@
                 window.AV = require('leancloud-storage')
 
             }
-            new Valine({
-                el: '#vcomments',
-                appId: 'iM6NcXUBMLloUfWfE0DEHaNG-gzGzoHsz',
-                appKey: '3O2I3gY0dp5Gmv52jRsqTcu3',
-                notify:true,
-                verify:false,
-                avatar:'mm',
-            });
         }
     }
 
